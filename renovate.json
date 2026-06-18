@@ -1,0 +1,78 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "enabledManagers": [
+        "docker-compose",
+        "dockerfile",
+        "github-actions",
+        "html",
+        "pep621",
+        "pip_requirements",
+        "pre-commit"
+    ],
+    "gitAuthor": "RKIMetadataExchange <mex@rki.de>",
+    "lockFileMaintenance": {
+        "enabled": true,
+        "schedule": [
+            "on monday"
+        ]
+    },
+    "packageRules": [
+        {
+            "description": "Apply all updates after cooldown of 7 days, hopefully avoiding malicious updates which are yanked in the meantime",
+            "matchUpdateTypes": [
+                "digest",
+                "lockFileMaintenance",
+                "major",
+                "minor",
+                "patch",
+                "pin"
+            ],
+            "minimumReleaseAge": "7 days",
+            "minimumReleaseAgeBehaviour": "timestamp-optional"
+        },
+        {
+            "description": "Pin GitHub Actions to SHA digests for supply chain security",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "pinDigests": true
+        },
+        {
+            "description": "Group all GitHub Actions updates into a single PR",
+            "groupName": "github-actions",
+            "matchManagers": [
+                "github-actions"
+            ]
+        },
+        {
+            "description": "Group all non-major Python updates into a single PR",
+            "groupName": "python non-major",
+            "matchCurrentVersion": "!/^0/",
+            "matchManagers": [
+                "pep621",
+                "pip_requirements"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ]
+        },
+        {
+            "description": "Immediately apply updates of mex packages in dedicated PR",
+            "groupName": null,
+            "matchPackageNames": [
+                "mex-*"
+            ],
+            "minimumReleaseAge": "0 days"
+        }
+    ],
+    "prFooter": "",
+    "pre-commit": {
+        "enabled": true
+    },
+    "vulnerabilityAlerts": {
+        "enabled": true
+    }
+}
