@@ -1,8 +1,3 @@
--- Seed script for a GrippeWeb MSSQL test database.
--- Creates the GrippeWeb database, the MEx schema and its tables, then inserts
--- the rows used by the MEx GrippeWeb extractor integration tests.
--- The script is idempotent: it can be re-applied to an existing database.
-
 IF DB_ID('GrippeWeb') IS NULL
     CREATE DATABASE GrippeWeb;
 GO
@@ -21,8 +16,8 @@ GO
 
 CREATE TABLE MEx.vActualQuestion (
     Id NVARCHAR(255) NULL,
-    StartedOn DATETIME2 NULL,
-    FinishedOn DATETIME2 NULL,
+    StartedOn NVARCHAR(255) NULL,
+    FinishedOn NVARCHAR(255) NULL,
     RepeatAfterDays NVARCHAR(255) NULL
 );
 GO

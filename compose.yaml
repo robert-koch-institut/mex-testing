@@ -28,16 +28,16 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-  mssql-seed:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+  sql-testing-seed:
+    build:
+      context: .
+      dockerfile: sql-testing-seed.Dockerfile
     depends_on:
       mssql:
         condition: service_healthy
     environment:
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:-MEx_testing1234}
-    volumes:
-      - ./grippeweb.sql:/tmp/grippeweb.sql:ro
-    entrypoint: [ "/opt/mssql-tools18/bin/sqlcmd", "-S", "mssql", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD:-MEx_testing1234}", "-C", "-b", "-i", "/tmp/grippeweb.sql" ]
+      - SEED_HOST=mssql
+      - SEED_SA_PASSWORD=${MSSQL_SA_PASSWORD:-MEx_testing1234}
     restart: "no"
 volumes:
   data:
