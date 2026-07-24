@@ -97,7 +97,9 @@ def _find_test_data_file(test_data_path: str) -> Path:
 def http_test_server(test_data_path: str) -> FileResponse:
     """Return http server test data defined in mex-assets."""
     found_file = _find_test_data_file(test_data_path)
-    mimetype, _ = mimetypes.guess_file_type(found_file)
+    # `guess_type` (not the 3.13+ `guess_file_type`) keeps this importable on py3.11;
+    # our asset filenames contain no url-special chars, so the results are equivalent
+    mimetype, _ = mimetypes.guess_type(found_file)
     return FileResponse(found_file, media_type=mimetype)
 
 
