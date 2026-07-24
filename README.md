@@ -139,7 +139,7 @@ assets/
 
 ### Configuration
 
-- `MEX_TESTING_HTTP_SERVER_DATA_DIRECTORY`: Root directory for test data (default: assets dir)
+- `MEX_TESTING_HTTP_SERVER_DATA_DIRECTORY`: Root dir for test data (default: `./assets`)
 - `MEX_TESTING_HTTP_SERVER_HOST`: Host (default: `localhost`)
 - `MEX_TESTING_HTTP_SERVER_PORT`: Port (default: `8088`)
 - `MEX_TESTING_HTTP_SERVER_ROOT_PATH`: Root path for the server

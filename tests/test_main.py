@@ -117,6 +117,21 @@ def test_head_http_test_server(client: TestClient) -> None:
     assert response.status_code == 200
 
 
+def test_head_missing_file_returns_404(client: TestClient) -> None:
+    # HEAD mirrors GET availability: 404 when GET would 404
+    assert client.head("/v0/extractor/not_existing").status_code == 404
+    assert client.head("/v0/extractor/too_many_files").status_code == 404
+
+
+def test_path_traversal_is_blocked(client: TestClient) -> None:
+    # `..%2f..%2fpyproject` reaches the handler as `../../pyproject`, which would
+    # otherwise resolve to and serve the repo's `pyproject.toml`
+    for method in ("GET", "HEAD"):
+        response = client.request(method, "/v0/..%2f..%2fpyproject")
+        assert response.status_code == 404
+        assert b"[project]" not in response.content
+
+
 def test_post_datscha_web_login(client: TestClient) -> None:
     response = client.post("/v0/datscha_web/login.php", follow_redirects=False)
     assert response.status_code == 307

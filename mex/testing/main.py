@@ -1,6 +1,7 @@
 import mimetypes
 from collections.abc import AsyncIterator, Callable
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any
 
 import uvicorn
@@ -68,45 +69,52 @@ def post_datscha_web_login() -> RedirectResponse:
     return RedirectResponse("verzeichnis.php")
 
 
-@router.api_route("/{test_data_path:path}", methods=["GET", "POST"])
-def http_test_server(test_data_path: str) -> FileResponse:
-    """Return http server test data defined in mex-assets."""
+def _find_test_data_file(test_data_path: str) -> Path:
+    """Resolve a request path to a single asset file or raise ``HTTPException`` 404."""
     # paths starting with an underscore are reserved for internal routes (e.g. _system)
     if test_data_path.startswith("_"):
-        msg = "No files found"
-        raise HTTPException(status_code=404, detail=msg)
+        raise HTTPException(status_code=404, detail="No files found")
     settings = TestingSettings.get()
-    path_to_file_without_ext = settings.http_server_test_data_directory / test_data_path
+    data_directory = (settings.http_server_test_data_directory / "").resolve()
+    path_to_file_without_ext = (
+        settings.http_server_test_data_directory / test_data_path
+    ).resolve()
+    # guard against path traversal (e.g. `../`) escaping the configured data directory
+    if not path_to_file_without_ext.is_relative_to(data_directory):
+        raise HTTPException(status_code=404, detail="No files found")
     found_files = list(
         path_to_file_without_ext.parent.glob(path_to_file_without_ext.name + ".*")
     )
     len_found_files = len(found_files)
     if len_found_files == 0:
-        msg = "No files found"
-        raise HTTPException(status_code=404, detail=msg)
+        raise HTTPException(status_code=404, detail="No files found")
     if len_found_files > 1:
-        msg = "Too many files found"
-        raise HTTPException(status_code=404, detail=msg)
+        raise HTTPException(status_code=404, detail="Too many files found")
+    return found_files[0]
 
-    found_file = found_files[0]
+
+@router.api_route("/{test_data_path:path}", methods=["GET", "POST"])
+def http_test_server(test_data_path: str) -> FileResponse:
+    """Return http server test data defined in mex-assets."""
+    found_file = _find_test_data_file(test_data_path)
     mimetype, _ = mimetypes.guess_file_type(found_file)
-
     return FileResponse(found_file, media_type=mimetype)
 
 
 @router.head("/{test_data_path:path}")
 def head_http_test_server(test_data_path: str) -> Response:
-    """HEAD endpoint for checking availability."""
-    # paths starting with an underscore are reserved for internal routes (e.g. _system)
-    if test_data_path.startswith("_"):
-        return Response(status_code=404)
+    """HEAD endpoint mirroring GET availability, without a response body."""
+    try:
+        _find_test_data_file(test_data_path)
+    except HTTPException as error:
+        return Response(status_code=error.status_code)
     return Response(status_code=200)
 
 
 app.include_router(router)
 
 
-@entrypoint(TestingSettings)
+@entrypoint()
 def main() -> None:  # pragma: no cover
     """Start the testing server process.
 
