@@ -98,6 +98,62 @@ Images released to GHCR are signed using [cosign](https://github.com/sigstore/co
 To verify an image manually:
 `cosign verify --certificate-identity-regexp "https://github.com/robert-koch-institut/mex-testing/.github/workflows/release.yml@refs/heads/main" --certificate-oidc-issuer "https://token.actions.githubusercontent.com" ghcr.io/robert-koch-institut/mex-testing:<tag>`
 
+## HTTP test server
+
+The testing service ships a simple HTTP server for mocking external systems during
+integration tests.
+
+### Endpoints
+
+#### GET/POST `/v0/{path-to-file}`
+
+- Serves files from `TestingSettings.http_server_test_data_directory`
+- Maps `{path-to-file}` to files in the test data directory
+- Uses file extension to determine mimetype
+- Returns 404 if no matching file or multiple files found
+
+**Example:**
+
+- File at `assets/extractor1/data.json`
+- Served via `/v0/extractor1/data`
+
+#### HEAD `/v0/{path-to-file}`
+
+- Always returns HTTP 200 OK status
+
+#### POST `/v0/datscha_web/login.php`
+
+- Custom endpoint for datscha web login
+- Returns redirect to "verzeichnis.php"
+
+### Directory structure
+
+```
+assets/
+├── extractor1/
+│   └── file1.json       # Access via /extractor1/file1
+├── extractor2/
+│   ├── file.xml         # Access via /extractor2/file
+│   └── file.csv         # Access via /extractor2/file
+```
+
+### Configuration
+
+- `MEX_TESTING_HTTP_SERVER_DATA_DIRECTORY`: Root directory for test data (default: assets dir)
+- `MEX_TESTING_HTTP_SERVER_HOST`: Host (default: `localhost`)
+- `MEX_TESTING_HTTP_SERVER_PORT`: Port (default: `8088`)
+- `MEX_TESTING_HTTP_SERVER_ROOT_PATH`: Root path for the server
+
+### Custom endpoints
+
+Add new endpoints by extending the API router in `mex/testing/main.py`:
+
+```python
+@router.post("/custom/path")
+def custom_endpoint() -> Response:
+    return Response(content="custom response")
+```
+
 ## Commands
 
 - run `uv run {command} --help` to print instructions

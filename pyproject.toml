@@ -9,11 +9,14 @@ urls = { Repository = "https://github.com/robert-koch-institut/mex-testing" }
 requires-python = ">=3.11,<3.15"
 dependencies = [
     "fastapi",
-    "pydantic"
+    "mex-common>=3,<4",
+    "pydantic",
+    "uvicorn"
 ]
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28",
     "ipdb>=0.13",
     "mypy>=1",
     "pytest-cov>=6",
