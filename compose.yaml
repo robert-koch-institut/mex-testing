@@ -3,11 +3,11 @@ services:
     build:
       context: .
     ports:
-      - 8080:8080
+      - 8050:8050
     environment:
       - MEX_TESTING_HTTP_SERVER_HOST=0.0.0.0
     healthcheck:
-      test: [ "CMD", "curl", "http://0.0.0.0:8080/v0/_system/check" ]
+      test: [ "CMD", "curl", "http://0.0.0.0:8050/v0/_system/check" ]
       interval: 60s
       timeout: 5s
       retries: 5

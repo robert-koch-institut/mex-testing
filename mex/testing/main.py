@@ -1,7 +1,6 @@
 import mimetypes
 from collections.abc import AsyncIterator, Callable
 from contextlib import asynccontextmanager
-from pathlib import Path
 from typing import Any
 
 import uvicorn
@@ -11,6 +10,7 @@ from fastapi.responses import FileResponse, RedirectResponse, Response
 from mex.common.cli import entrypoint
 from mex.common.connector import CONNECTOR_STORE
 from mex.common.logging import logger
+from mex.testing.helpers import find_test_data_file
 from mex.testing.logging import UVICORN_LOGGING_CONFIG
 from mex.testing.settings import TestingSettings
 from mex.testing.system.main import router as system_router
@@ -69,36 +69,10 @@ def post_datscha_web_login() -> RedirectResponse:
     return RedirectResponse("verzeichnis.php")
 
 
-def _find_test_data_file(test_data_path: str) -> Path:
-    """Resolve a request path to a single asset file or raise ``HTTPException`` 404."""
-    # paths starting with an underscore are reserved for internal routes (e.g. _system)
-    if test_data_path.startswith("_"):
-        raise HTTPException(status_code=404, detail="No files found")
-    settings = TestingSettings.get()
-    data_directory = (settings.http_server_test_data_directory / "").resolve()
-    path_to_file_without_ext = (
-        settings.http_server_test_data_directory / test_data_path
-    ).resolve()
-    # guard against path traversal (e.g. `../`) escaping the configured data directory
-    if not path_to_file_without_ext.is_relative_to(data_directory):
-        raise HTTPException(status_code=404, detail="No files found")
-    found_files = list(
-        path_to_file_without_ext.parent.glob(path_to_file_without_ext.name + ".*")
-    )
-    len_found_files = len(found_files)
-    if len_found_files == 0:
-        raise HTTPException(status_code=404, detail="No files found")
-    if len_found_files > 1:
-        raise HTTPException(status_code=404, detail="Too many files found")
-    return found_files[0]
-
-
 @router.api_route("/{test_data_path:path}", methods=["GET", "POST"])
 def http_test_server(test_data_path: str) -> FileResponse:
     """Return http server test data defined in mex-assets."""
-    found_file = _find_test_data_file(test_data_path)
-    # `guess_type` (not the 3.13+ `guess_file_type`) keeps this importable on py3.11;
-    # our asset filenames contain no url-special chars, so the results are equivalent
+    found_file = find_test_data_file(test_data_path)
     mimetype, _ = mimetypes.guess_type(found_file)
     return FileResponse(found_file, media_type=mimetype)
 
@@ -107,7 +81,7 @@ def http_test_server(test_data_path: str) -> FileResponse:
 def head_http_test_server(test_data_path: str) -> Response:
     """HEAD endpoint mirroring GET availability, without a response body."""
     try:
-        _find_test_data_file(test_data_path)
+        find_test_data_file(test_data_path)
     except HTTPException as error:
         return Response(status_code=error.status_code)
     return Response(status_code=200)
