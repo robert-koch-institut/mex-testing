@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - moved http-test-server from mex-backend, with shorter url path and `MEX_TESTING_` envs
+- test data from mex-extractors
 
 ### Changes
 
