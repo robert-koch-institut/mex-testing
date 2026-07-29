@@ -51,8 +51,8 @@ run: image
 	# run the service as a docker container
 	@ echo running docker container mex-testing:${LATEST}; \
 	docker run \
-		--env MEX_TESTING_HOST=0.0.0.0 \
-		--publish 8080:8080 \
+		--env MEX_TESTING_HTTP_SERVER_HOST=0.0.0.0 \
+		--publish 8050:8050 \
 		rki/mex-testing:${LATEST}; \
 
 start:
