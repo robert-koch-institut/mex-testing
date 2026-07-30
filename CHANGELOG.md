@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changes
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.1.0] - 2026-07-30
+
+### Added
+
 - moved http-test-server from mex-backend, with shorter url path and `MEX_TESTING_` envs
 - test data from mex-extractors
 
@@ -16,11 +30,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.3.0
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/944944
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 ### Security
