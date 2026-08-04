@@ -14,7 +14,7 @@ class TestingSettings(BaseSettings):
         validation_alias="MEX_TESTING_HTTP_SERVER_HOST",
     )
     http_server_port: int = Field(
-        8088,
+        8050,
         gt=0,
         lt=65536,
         description="Port that the http server should listen on.",
