@@ -25,9 +25,6 @@ concurrency:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ 3.11, 3.12, 3.13, 3.14 ]
     timeout-minutes: 10
     permissions:
       contents: read
@@ -64,9 +61,7 @@ jobs:
           python-version: 3.14
 
       - name: Install requirements
-        run: |
-          echo ${{ matrix.python-version }} > .python-version
-          make install
+        run: make install
 
       - name: Run linters
         run: make lint
