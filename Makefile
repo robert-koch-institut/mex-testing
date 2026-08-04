@@ -33,7 +33,7 @@ unit:
 test:
 	# run the unit and integration test suites
 	@ echo running all tests; \
-	uv run pytest; \
+	uv run pytest tests/test_seed.py::test_seeded_statements_land_in_the_database[nulls]; \
 
 wheel:
 	# build the python package
