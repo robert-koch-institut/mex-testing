@@ -35,7 +35,7 @@ LABEL org.opencontainers.image.vendor="robert-koch-institut"
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONOPTIMIZE=1
 
-ENV SEED_DIRECTORY=/app/seeds
+ENV MEX_TESTING_SQL_SEED_DIRECTORY=/app/seeds
 
 WORKDIR /app
 
