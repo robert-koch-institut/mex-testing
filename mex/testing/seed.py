@@ -1,12 +1,4 @@
-"""Apply every bundled ``seeds/*.sql`` file to a target SQL Server.
-
-The seeder image bundles one ``.sql`` file per primary source (e.g.
-``grippeweb.sql``). Each file is self-contained and idempotent and uses ``GO`` batch
-separators. This entrypoint waits for the target server to accept connections, then
-applies all seeds using pyodbc (the same client stack as the mex-extractors
-connectors).
-"""
-
+import re
 import time
 from pathlib import Path
 
@@ -36,20 +28,14 @@ def connect() -> pyodbc.Connection:
 
 
 def apply_seed(connection: pyodbc.Connection, path: Path) -> None:
-    """Apply a single ``.sql`` file, executing each ``GO``-separated batch."""
-    batch: list[str] = []
+    """Apply a single `.sql` file, executing each `GO`-separated batch."""
     cursor = connection.cursor()
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if line.strip().upper() == "GO":
-            statement = "\n".join(batch).strip()
-            if statement:
-                cursor.execute(statement)
-            batch = []
-        else:
-            batch.append(line)
-    statement = "\n".join(batch).strip()
-    if statement:
-        cursor.execute(statement)
+    file_content = path.read_text(encoding="utf-8")
+    batches = re.split(r"^\s*GO\s*$", file_content, flags=re.IGNORECASE | re.MULTILINE)
+    for batch in batches:
+        if statement := batch.strip():  # handle the last eof GO yielding an empty batch
+            cursor.execute(statement)
+
     logger.info("applied %s", path.name)
 
 

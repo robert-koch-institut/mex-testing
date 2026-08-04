@@ -21,7 +21,7 @@ class SeedSettings(BaseSettings):
         description="Port of the target SQL Server.",
     )
     sa_password: SecretStr = Field(
-        SecretStr("password"),
+        SecretStr("MEx_testing1234"),
         description="Password of the target SQL Server's `sa` login.",
     )
     directory: Path = Field(
