@@ -10,6 +10,8 @@ from mex.testing.settings import TestingSettings
 
 TEST_DATA_PATH = Path(__file__).parent / "test_data"
 
+pytest_plugins = ("mex.common.testing.plugin",)
+
 
 @pytest.fixture
 def log_level(request: pytest.FixtureRequest) -> int:

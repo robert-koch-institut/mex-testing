@@ -27,9 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      matrix:
-        python-version: [ 3.11, 3.12, 3.13, 3.14 ]
     timeout-minutes: 10
 
     steps:
@@ -63,10 +60,23 @@ jobs:
         with:
           python-version: 3.14
 
-      - name: Install requirements
+      - name: Start containers
+        run: docker compose up --wait mssql
+
+      - name: Install Microsoft ODBC Driver 18
         run: |
-          echo ${{ matrix.python-version }} > .python-version
-          make install
+          curl -fsSL -O https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          rm packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 unixodbc unixodbc-dev
+
+      - name: Install requirements
+        run: make install
 
       - name: Run test suite
         run: make test
+
+      - name: Cleanup containers
+        if: always()
+        run: docker compose down mssql

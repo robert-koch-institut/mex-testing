@@ -1,9 +1,12 @@
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from fastapi import HTTPException
 
 from mex.common.assets import FilesystemAssetsConnector
 from mex.testing.settings import TestingSettings
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def find_test_data_file(test_data_path: str) -> Path:
