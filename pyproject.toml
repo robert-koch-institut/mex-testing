@@ -1,6 +1,6 @@
 [project]
 name = "mex-testing"
-version = "0.1.0"
+version = "0.1.1"
 description = "Assets, tools and services for mocking and testing MEx packages."
 authors = [{ name = "MEx Team", email = "mex@rki.de" }]
 readme = { file = "README.md", content-type = "text/markdown" }
@@ -8,22 +8,24 @@ license = "MIT"
 urls = { Repository = "https://github.com/robert-koch-institut/mex-testing" }
 requires-python = ">=3.11,<3.15"
 dependencies = [
-    "fastapi>=0.139",
-    "mex-common>=3",
-    "pydantic>=2",
+    "fastapi>=0.141,<1",
+    "mex-common>=3,<4",
     "pydantic-settings>=2",
-    "pyodbc>=5"
+    "pydantic>=2,<3",
+    "pyodbc>=5",
+    "uvicorn>=0.52,<1"
 ]
 
 [dependency-groups]
 dev = [
+    "httpx2>=2",
     "ipdb>=0.13",
     "mypy>=1",
     "pytest-cov>=6",
     "pytest-random-order>=1",
     "pytest-xdist>=3",
     "pytest>=8",
-    "ruff>=0.15",
+    "ruff>=0.16",
     "sphinx>=9",
 ]
 

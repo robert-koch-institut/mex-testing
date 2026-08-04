@@ -25,7 +25,8 @@ LABEL org.opencontainers.image.vendor="robert-koch-institut"
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONOPTIMIZE=1
 
-ENV MEX_TESTING_HOST=0.0.0.0
+ENV MEX_TESTING_HTTP_SERVER_HOST=0.0.0.0
+ENV MEX_TESTING_HTTP_SERVER_PORT=8050
 
 WORKDIR /app
 
@@ -34,6 +35,6 @@ COPY --from=builder /usr/local/bin/testing /usr/local/bin/testing
 
 USER 10001
 
-EXPOSE 8080
+EXPOSE 8050
 
 ENTRYPOINT [ "testing" ]
