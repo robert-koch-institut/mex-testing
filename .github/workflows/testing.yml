@@ -63,6 +63,9 @@ jobs:
         with:
           python-version: 3.14
 
+      - name: Start containers
+        run: docker compose up --wait mssql
+
       - name: Install requirements
         run: |
           echo ${{ matrix.python-version }} > .python-version
@@ -70,3 +73,7 @@ jobs:
 
       - name: Run test suite
         run: make test
+
+      - name: Cleanup containers
+        if: always()
+        run: docker compose down mssql
