@@ -1,11 +1,14 @@
 import re
 import time
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pyodbc  # type: ignore[import-not-found]
 
 from mex.common.logging import logger
 from mex.testing.settings import SeedSettings
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def connect() -> pyodbc.Connection:

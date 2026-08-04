@@ -1,7 +1,6 @@
 import mimetypes
-from collections.abc import AsyncIterator, Callable
 from contextlib import asynccontextmanager
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import uvicorn
 from fastapi import APIRouter, FastAPI, HTTPException
@@ -14,6 +13,9 @@ from mex.testing.helpers import find_test_data_file
 from mex.testing.logging import UVICORN_LOGGING_CONFIG
 from mex.testing.settings import TestingSettings
 from mex.testing.system.main import router as system_router
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator, Callable
 
 startup_tasks: list[Callable[[], Any]] = [
     TestingSettings.get,

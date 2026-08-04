@@ -8,13 +8,13 @@ if TYPE_CHECKING:  # pragma: no cover
     from fastapi.testclient import TestClient
 
 
-def test_health_check(client: "TestClient") -> None:
+def test_health_check(client: TestClient) -> None:
     response = client.get("/v0/_system/check")
     assert response.status_code == status.HTTP_200_OK, response.text
     assert response.json() == {"status": "ok", "version": Joker()}
 
 
-def test_metrics(client: "TestClient") -> None:
+def test_metrics(client: TestClient) -> None:
     response = client.get("/v0/_system/metrics")
     assert response.status_code == status.HTTP_200_OK, response.text
     assert response.headers["content-type"].startswith("text/plain")

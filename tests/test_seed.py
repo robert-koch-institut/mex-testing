@@ -1,8 +1,7 @@
 import time
 from datetime import date, datetime
 from decimal import Decimal
-from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pyodbc  # type: ignore[import-not-found]
 import pytest
@@ -10,6 +9,9 @@ import pytest
 from mex.common.settings import SETTINGS_STORE
 from mex.testing.seed import apply_seed, connect, main
 from mex.testing.settings import SeedSettings
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 NUMBERS = """
 USE tempdb;
@@ -77,7 +79,7 @@ class StubConnection:
     def __init__(self) -> None:
         self.statements: list[str] = []
 
-    def cursor(self) -> "StubConnection":
+    def cursor(self) -> StubConnection:
         return self
 
     def execute(self, statement: str) -> None:
