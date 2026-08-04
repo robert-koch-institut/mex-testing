@@ -1,7 +1,6 @@
 from pydantic import Field
 
 from mex.common.settings import BaseSettings
-from mex.common.types import AssetsPath
 
 
 class TestingSettings(BaseSettings):
@@ -26,8 +25,8 @@ class TestingSettings(BaseSettings):
         description="Root path that the http server should run under.",
         validation_alias="MEX_TESTING_HTTP_SERVER_ROOT_PATH",
     )
-    http_server_test_data_directory: AssetsPath = Field(
-        AssetsPath("."),
+    http_server_test_data_directory: str = Field(
+        ".",
         description="Directory that the http server should return test data from.",
         validation_alias="MEX_TESTING_HTTP_SERVER_DATA_DIRECTORY",
     )
