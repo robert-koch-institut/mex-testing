@@ -13,5 +13,32 @@ services:
       retries: 5
     volumes:
       - data:/app/data
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:-MEx_testing1234}
+    ports:
+      - 1433:1433
+    volumes:
+      - mssql:/var/opt/mssql
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' -b" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  sql-testing-seed:
+    build:
+      context: .
+      dockerfile: sql-testing-seed.Dockerfile
+    depends_on:
+      mssql:
+        condition: service_healthy
+    environment:
+      - MEX_TESTING_SQL_SEED_HOST=mssql
+      - MEX_TESTING_SQL_SEED_SA_PASSWORD=${MSSQL_SA_PASSWORD:-MEx_testing1234}
+    restart: "no"
 volumes:
   data:
+  mssql:
