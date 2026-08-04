@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Any
 import pyodbc  # type: ignore[import-not-found]
 import pytest
 
-from mex.common.settings import SETTINGS_STORE
 from mex.testing.seed import apply_seed, connect, main
 from mex.testing.settings import TestingSettings
 
@@ -86,20 +85,9 @@ class StubConnection:
         self.statements.append(statement)
 
 
-def push_seed_settings(**overrides: Any) -> TestingSettings:  # noqa: ANN401
-    """Swap the settings singleton for `TestingSettings` with the given overrides."""
-    # the autouse `settings` fixture pushes `TestingSettings`, which would make
-    # `TestingSettings.get()` inside the seeder raise, so we replace it for the test
-    settings = TestingSettings(**overrides)
-    SETTINGS_STORE.reset()
-    SETTINGS_STORE.push(settings)
-    return settings
-
-
 def test_connect_retries_until_the_server_accepts(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    push_seed_settings()
     attempts = []
 
     def fake_connect(dsn: str, autocommit: bool) -> str:  # noqa: ARG001, FBT001
@@ -116,7 +104,8 @@ def test_connect_retries_until_the_server_accepts(
 
 
 def test_connect_gives_up_after_the_deadline() -> None:
-    push_seed_settings(wait_seconds=0)
+    settings = TestingSettings.get()
+    settings.sql_seed_wait_seconds = 0
     with pytest.raises(SystemExit, match="server not ready after 0s"):
         connect()
 
@@ -135,7 +124,8 @@ def test_apply_seed_executes_go_separated_batches(tmp_path: Path) -> None:
 
 
 def test_main_without_seeds_exits(tmp_path: Path) -> None:
-    push_seed_settings(directory=tmp_path)
+    settings = TestingSettings.get()
+    settings.sql_seed_directory = tmp_path
     with pytest.raises(SystemExit, match=r"no \*\.sql seeds found"):
         main()
 
@@ -197,8 +187,9 @@ def test_seeded_statements_land_in_the_database(
     expected_rows: list[tuple[Any, ...]],
     tmp_path: Path,
 ) -> None:
+    settings = TestingSettings.get()
     (tmp_path / "test.sql").write_text(statements, encoding="utf-8")
-    push_seed_settings(directory=tmp_path)
+    settings.sql_seed_directory = tmp_path
     main()
     cursor = connect().cursor()
     assert [tuple(row) for row in cursor.execute(query).fetchall()] == expected_rows
