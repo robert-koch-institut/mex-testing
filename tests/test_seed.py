@@ -8,7 +8,7 @@ import pytest
 
 from mex.common.settings import SETTINGS_STORE
 from mex.testing.seed import apply_seed, connect, main
-from mex.testing.settings import SeedSettings
+from mex.testing.settings import TestingSettings
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -86,11 +86,11 @@ class StubConnection:
         self.statements.append(statement)
 
 
-def push_seed_settings(**overrides: Any) -> SeedSettings:  # noqa: ANN401
-    """Swap the settings singleton for `SeedSettings` with the given overrides."""
+def push_seed_settings(**overrides: Any) -> TestingSettings:  # noqa: ANN401
+    """Swap the settings singleton for `TestingSettings` with the given overrides."""
     # the autouse `settings` fixture pushes `TestingSettings`, which would make
-    # `SeedSettings.get()` inside the seeder raise, so we replace it for the test
-    settings = SeedSettings(**overrides)
+    # `TestingSettings.get()` inside the seeder raise, so we replace it for the test
+    settings = TestingSettings(**overrides)
     SETTINGS_STORE.reset()
     SETTINGS_STORE.push(settings)
     return settings

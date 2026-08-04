@@ -1,50 +1,48 @@
 from pathlib import Path
 
 from pydantic import Field, SecretStr
-from pydantic_settings import SettingsConfigDict
 
 from mex.common.settings import BaseSettings
 from mex.common.types import AssetsPath
 
 
-class SeedSettings(BaseSettings):
-    """Settings definition for the SQL seeder entrypoint."""
+class TestingSettings(BaseSettings):
+    """Settings definition for the testing service."""
 
-    model_config = SettingsConfigDict(env_prefix="seed_")
-
-    host: str = Field(
+    sql_seed_host: str = Field(
         "localhost",
         description="Host name of the target SQL Server.",
+        validation_alias="MEX_TESTING_SQL_SEED_HOST",
     )
-    port: int = Field(
+    sql_seed_port: int = Field(
         1433,
         description="Port of the target SQL Server.",
+        validation_alias="MEX_TESTING_SQL_SEED_PORT",
     )
-    sa_password: SecretStr = Field(
+    sql_seed_sa_password: SecretStr = Field(
         SecretStr("MEx_testing1234"),
         description="Password of the target SQL Server's `sa` login.",
+        validation_alias="MEX_TESTING_SQL_SEED_SA_PASSWORD",
     )
-    directory: Path = Field(
+    sql_seed_directory: Path = Field(
         Path("seeds"),
         description="Directory holding the `*.sql` seed files to apply.",
+        validation_alias="MEX_TESTING_SQL_SEED_DIRECTORY",
     )
-    wait_seconds: int = Field(
+    sql_seed_wait_seconds: int = Field(
         120,
         description="Maximum seconds to wait for the server to accept connections.",
+        validation_alias="MEX_TESTING_SQL_SEED_WAIT_SECONDS",
     )
 
-    def dsn(self) -> str:
+    def sql_seed_dsn(self) -> str:
         """Build the ODBC connection string for the target server."""
         return (
             "DRIVER={ODBC Driver 18 for SQL Server};"
-            f"SERVER={self.host},{self.port};"
-            f"UID=sa;PWD={self.sa_password.get_secret_value()};"
+            f"SERVER={self.sql_seed_host},{self.sql_seed_port};"
+            f"UID=sa;PWD={self.sql_seed_sa_password.get_secret_value()};"
             "TrustServerCertificate=yes"
         )
-
-
-class TestingSettings(BaseSettings):
-    """Settings definition for the testing service."""
 
     http_server_host: str = Field(
         "localhost",

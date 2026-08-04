@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import pyodbc  # type: ignore[import-not-found]
 
 from mex.common.logging import logger
-from mex.testing.settings import SeedSettings
+from mex.testing.settings import TestingSettings
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -13,20 +13,24 @@ if TYPE_CHECKING:
 
 def connect() -> pyodbc.Connection:
     """Wait for the server to accept connections, then return a connection."""
-    settings = SeedSettings.get()
-    deadline = time.monotonic() + settings.wait_seconds
+    settings = TestingSettings.get()
+    deadline = time.monotonic() + settings.sql_seed_wait_seconds
     last_error: pyodbc.Error | None = None
     while time.monotonic() < deadline:
         try:
-            connection = pyodbc.connect(settings.dsn(), autocommit=True)
+            connection = pyodbc.connect(settings.sql_seed_dsn(), autocommit=True)
         except pyodbc.Error as error:
             last_error = error
-            logger.info("waiting for %s:%s ...", settings.host, settings.port)
+            logger.info(
+                "waiting for %s:%s ...", settings.sql_seed_host, settings.sql_seed_port
+            )
             time.sleep(3)
         else:
-            logger.info("connected to %s:%s", settings.host, settings.port)
+            logger.info(
+                "connected to %s:%s", settings.sql_seed_host, settings.sql_seed_port
+            )
             return connection
-    message = f"server not ready after {settings.wait_seconds}s: {last_error}"
+    message = f"server not ready after {settings.sql_seed_wait_seconds}s: {last_error}"
     raise SystemExit(message)
 
 
@@ -44,10 +48,10 @@ def apply_seed(connection: pyodbc.Connection, path: Path) -> None:
 
 def main() -> None:
     """Apply all bundled seeds to the target server."""
-    settings = SeedSettings.get()
-    seeds = sorted(settings.directory.glob("*.sql"))
+    settings = TestingSettings.get()
+    seeds = sorted(settings.sql_seed_directory.glob("*.sql"))
     if not seeds:
-        message = f"no *.sql seeds found in {settings.directory}"
+        message = f"no *.sql seeds found in {settings.sql_seed_directory}"
         raise SystemExit(message)
     connection = connect()
     for path in seeds:

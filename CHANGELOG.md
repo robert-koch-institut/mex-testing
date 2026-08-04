@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- BREAKING: remove support for python 3.11, 3.12, and 3.13
+
 ### Fixed
 
 ### Security
