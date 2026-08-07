@@ -1,14 +1,14 @@
 {
   "template": "https://github.com/robert-koch-institut/mex-template",
-  "commit": "192830effd8041fcff795b110a3915093c96c00e",
-  "checkout": "1.3.0",
+  "commit": "b5dc3e8206375f1ab6ae9e23b4cc0fb305d00aed",
+  "checkout": "1.5.0",
   "context": {
     "cookiecutter": {
       "project_name": "testing",
       "short_summary": "Assets, tools and services for mocking and testing MEx packages.",
       "long_summary": "This package provides utilities, test data, and mock services for the MEx ecosystem (mex-common, mex-backend, mex-editor, and related services). It helps with running services without access to internal infrastructure as well as with implementing and running integration tests.",
       "_template": "https://github.com/robert-koch-institut/mex-template",
-      "_commit": "192830effd8041fcff795b110a3915093c96c00e"
+      "_commit": "b5dc3e8206375f1ab6ae9e23b4cc0fb305d00aed"
     }
   },
   "directory": null
