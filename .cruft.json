@@ -8,7 +8,7 @@
       "short_summary": "Assets, tools and services for mocking and testing MEx packages.",
       "long_summary": "This package provides utilities, test data, and mock services for the MEx ecosystem (mex-common, mex-backend, mex-editor, and related services). It helps with running services without access to internal infrastructure as well as with implementing and running integration tests.",
       "containerize": true,
-      "publish_to_pypi": true,
+      "publish_to_pypi": false,
       "python_version_min": "3.14",
       "python_version_max": "3.14",
       "_template": "https://github.com/robert-koch-institut/mex-template",
