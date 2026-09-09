@@ -1,6 +1,9 @@
 .PHONY: all setup hooks install lint unit test wheel image run start docs
 all: install lint test
 
+SHELL := /bin/bash
+.SHELLFLAGS := -ec
+
 LATEST = $(shell git describe --tags $(shell git rev-list --tags --max-count=1))
 PWD = $(shell pwd)
 
@@ -33,7 +36,7 @@ unit:
 test:
 	# run the unit and integration test suites
 	@ echo running all tests; \
-	uv run pytest; \
+	uv run pytest --numprocesses=auto --dist=worksteal; \
 
 wheel:
 	# build the python package
