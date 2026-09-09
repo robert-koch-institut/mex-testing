@@ -11,8 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
+- swapped curl for a requests-based healthcheck of the testing service
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/2.0.1
-- new template https://github.com/robert-koch-institut/mex-template/releases/tag/2.0.0
+
 ### Deprecated
 
 ### Removed
@@ -30,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.5.0
+
 ### Removed
 
 - BREAKING: remove support for python 3.11, 3.12, and 3.13
@@ -51,5 +53,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - new template https://github.com/robert-koch-institut/mex-template/releases/tag/1.3.0
 - updated template to https://github.com/robert-koch-institut/mex-template/commit/944944
-
-### Security
