@@ -11,9 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 
-- swapped curl for a requests-based healthcheck of the testing service
-- new template https://github.com/robert-koch-institut/mex-template/releases/tag/2.0.1
-
 ### Deprecated
 
 ### Removed
@@ -21,6 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.2.1] - 2026-09-09
+
+### Changes
+
+- swapped curl for a requests-based healthcheck of the testing service
+- new template https://github.com/robert-koch-institut/mex-template/releases/tag/2.0.1
 
 ## [0.2.0] - 2026-08-18
 
