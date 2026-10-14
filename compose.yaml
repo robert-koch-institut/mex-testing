@@ -14,7 +14,7 @@ services:
     volumes:
       - data:/app/data
   mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest@sha256:ef0b8db33970ecd01bed49c3a84a1d083c435a9891718df619298b67b352e74a
+    image: mcr.microsoft.com/mssql/server:2019-latest@sha256:07d7dedecdbfcf6776035dc5eefb5bfd9aa1804b2f6b99f7dedb397d8a599069
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:-MEx_testing1234}
