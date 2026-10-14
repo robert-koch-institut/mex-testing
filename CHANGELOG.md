@@ -9,13 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- wikidata api mock serving the RKI organization (`Q679041`)
+
 ### Changes
+
+- move datscha_web mock item 46 to unit `C1`, so it isn't dropped by the `FG99` filter
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+- include `assets` in the container image, so the http test server can serve mocks
 
 ### Security
 

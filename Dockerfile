@@ -32,6 +32,7 @@ WORKDIR /app
 
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY --from=builder /usr/local/bin/testing /usr/local/bin/testing
+COPY --chown=10001:10001 assets /app/assets
 
 USER 10001
 
