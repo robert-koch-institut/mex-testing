@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - wikidata api mock serving the RKI organization (`Q679041`)
+- http test server prefers `{name}@{query}.{ext}` files for requests with a query string,
+  falling back to `{name}.{ext}` (`@` replaces `?` like `wget --restrict-file-names=windows`)
+- http test server answers `HEAD` requests for mock directories, e.g. connector base urls
+- confluence-vvt, igs, open-data and seq-repo mocks
 
 ### Changes
 

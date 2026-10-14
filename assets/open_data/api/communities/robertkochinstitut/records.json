@@ -1,0 +1,56 @@
+{
+    "hits": {
+        "hits": [
+            {
+                "conceptdoi": "10.3456/zenodo.1000",
+                "conceptrecid": "1000",
+                "files": [
+                    {
+                        "id": "file-1001-1"
+                    }
+                ],
+                "id": 1001,
+                "metadata": {
+                    "creators": [
+                        {
+                            "affiliation": "RKI",
+                            "name": "Resolved, Roland",
+                            "orcid": "0000-0002-1234-5678"
+                        }
+                    ],
+                    "description": "<p>Test resource with a metadata zip</p>",
+                    "license": {
+                        "id": "cc-by-4.0"
+                    },
+                    "publication_date": "2021-01-01",
+                    "resource_type": {
+                        "type": "dataset"
+                    }
+                },
+                "title": "Dumdidumdidum"
+            },
+            {
+                "conceptrecid": "2000",
+                "files": [],
+                "id": 2002,
+                "metadata": {
+                    "creators": [
+                        {
+                            "affiliation": "Universität",
+                            "name": "Felicitás, Juturna"
+                        }
+                    ],
+                    "license": {
+                        "id": "no license"
+                    },
+                    "publication_date": "2022-02-02",
+                    "resource_type": {
+                        "type": "software"
+                    }
+                },
+                "title": "This is a test"
+            }
+        ],
+        "total": 2
+    }
+}

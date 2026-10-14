@@ -1,0 +1,29 @@
+{
+    "components": {
+        "schemas": {
+            "SchemaCreation": {
+                "description": "properties",
+                "properties": {
+                    "schemas": {
+                        "items": {
+                            "$ref": "#/components/schemas/Pathogen"
+                        },
+                        "title": "test_title",
+                        "type": "date"
+                    }
+                }
+            },
+            "igsmodels__enums__Pathogen": {
+                "enum": [
+                    "PATHOGEN"
+                ],
+                "title": "enum",
+                "type": "string"
+            }
+        }
+    },
+    "info": {
+        "title": "info",
+        "version": "1"
+    }
+}

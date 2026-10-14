@@ -143,3 +143,16 @@ def test_post_datscha_web_login(client: TestClient) -> None:
 def test_underscore_paths_are_not_served(client: TestClient) -> None:
     assert client.get("/v0/_secret").status_code == 404
     assert client.head("/v0/_secret").status_code == 404
+
+
+def test_query_string_selects_specific_file(client: TestClient) -> None:
+    assert client.get("/v0/extractor/paged?page=2").json() == {"page": 2}
+    assert client.get("/v0/extractor/paged?page=3").json() == {"page": "default"}
+    assert client.get("/v0/extractor/paged").json() == {"page": "default"}
+    assert client.head("/v0/extractor/paged?page=2").status_code == 200
+
+
+def test_head_directory_returns_200(client: TestClient) -> None:
+    assert client.head("/v0/extractor").status_code == 200
+    assert client.head("/v0/extractor/").status_code == 200
+    assert client.head("/v0/not_existing/").status_code == 404

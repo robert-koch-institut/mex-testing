@@ -3,13 +3,13 @@ from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING, Any
 
 import uvicorn
-from fastapi import APIRouter, FastAPI, HTTPException
+from fastapi import APIRouter, FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
 
 from mex.common.cli import entrypoint
 from mex.common.connector import CONNECTOR_STORE
 from mex.common.logging import logger
-from mex.testing.helpers import find_test_data_file
+from mex.testing.helpers import find_test_data_file, is_test_data_directory
 from mex.testing.logging import UVICORN_LOGGING_CONFIG
 from mex.testing.settings import TestingSettings
 from mex.testing.system.main import router as system_router
@@ -72,18 +72,23 @@ def post_datscha_web_login() -> RedirectResponse:
 
 
 @router.api_route("/{test_data_path:path}", methods=["GET", "POST"])
-def http_test_server(test_data_path: str) -> FileResponse:
+def http_test_server(test_data_path: str, request: Request) -> FileResponse:
     """Return http server test data defined in mex-assets."""
-    found_file = find_test_data_file(test_data_path)
+    found_file = find_test_data_file(test_data_path, request.url.query)
     mimetype, _ = mimetypes.guess_type(found_file)
     return FileResponse(found_file, media_type=mimetype)
 
 
 @router.head("/{test_data_path:path}")
-def head_http_test_server(test_data_path: str) -> Response:
-    """HEAD endpoint mirroring GET availability, without a response body."""
+def head_http_test_server(test_data_path: str, request: Request) -> Response:
+    """HEAD endpoint mirroring GET availability, without a response body.
+
+    Directories are considered available too, so connectors can check their base url.
+    """
+    if is_test_data_directory(test_data_path):
+        return Response(status_code=200)
     try:
-        find_test_data_file(test_data_path)
+        find_test_data_file(test_data_path, request.url.query)
     except HTTPException as error:
         return Response(status_code=error.status_code)
     return Response(status_code=200)
