@@ -1,0 +1,23 @@
+{
+    "entries": [
+        {
+            "created": "2021-01-01T01:01:01.111111+00:00",
+            "file_id": "file-1001-1",
+            "key": "datapackage.json",
+            "links": {
+                "self": "https://zenodo.org/api/records/1001/files/datapackage.json/content"
+            },
+            "mimetype": "application/json",
+            "updated": "2021-01-01T01:01:01.111111+00:00"
+        },
+        {
+            "created": "2021-01-01T01:01:01.111111+00:00",
+            "file_id": "file-1001-2",
+            "key": "Metadaten.zip",
+            "links": {
+                "self": "https://zenodo.org/api/records/1001/files/Metadaten.zip/content"
+            },
+            "mimetype": "application/zip"
+        }
+    ]
+}

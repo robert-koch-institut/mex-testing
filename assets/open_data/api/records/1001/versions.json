@@ -1,0 +1,26 @@
+{
+    "hits": {
+        "hits": [
+            {
+                "metadata": {
+                    "creators": [
+                        {
+                            "affiliation": "RKI",
+                            "name": "Resolved, Roland",
+                            "orcid": "0000-0002-1234-5678"
+                        }
+                    ],
+                    "description": "<p>Test resource with a metadata zip</p>",
+                    "license": {
+                        "id": "cc-by-4.0"
+                    },
+                    "publication_date": "2021-01-01",
+                    "resource_type": {
+                        "type": "dataset"
+                    }
+                }
+            }
+        ],
+        "total": 1
+    }
+}

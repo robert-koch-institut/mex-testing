@@ -1,0 +1,12 @@
+{
+    "body": {
+        "view": {
+            "representation": "storage",
+            "value": "<table class=\"confluenceTable\"><tbody><tr><th>Interne Vorgangsnummer (Datenschutz): 2024-002</th></tr><tr><th>Ausführliche Beschreibung des Verfahrens / der Verarbeitung / der Studie</th></tr><tr><td><p>test description, test test test</p></td></tr><tr><th>Verantwortliche(r) StudienleiterIn</th><th>OE</th></tr><tr><td>Resolved, Roland</td><td>C1</td></tr><tr><th>ggfs. Vertreter der / des Verantwortlichen</th><th>OE</th></tr><tr><td>test ggfs vertreter</td><td>FG99</td></tr><tr><th>Mitarbeitende</th><th>OE</th></tr><tr><td>Felicitás, Juturna</td><td>test OE 1</td></tr></tbody></table>"
+        }
+    },
+    "id": "123457",
+    "status": "current",
+    "title": "Test Title",
+    "type": "page"
+}
