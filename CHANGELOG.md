@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changes
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.0.0] - 2026-10-16
+
+### Added
+
 - wikidata api mock serving the RKI organization (`Q679041`)
 - http test server prefers `{name}@{query}.{ext}` files for requests with a query string,
   falling back to `{name}.{ext}` (`@` replaces `?` like `wget --restrict-file-names=windows`)
@@ -19,15 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - move datscha_web mock item 46 to unit `C1`, so it isn't dropped by the `FG99` filter
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - include `assets` in the container image, so the http test server can serve mocks
-
-### Security
 
 ## [0.2.1] - 2026-09-09
 
