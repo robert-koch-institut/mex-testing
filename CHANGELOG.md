@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- serve files with or without extension
+
 ### Security
 
 - set security headers (CSP, HSTS, nosniff, referrer policy, frame options,
