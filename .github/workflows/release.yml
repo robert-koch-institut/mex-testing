@@ -107,30 +107,24 @@ jobs:
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         env:
           IMAGE: ghcr.io/${{ github.repository }}
-          TAG: ${{ needs.release.outputs.tag }}
         with:
           context: .
           push: true
           tags: |
-            ${{ env.IMAGE }}:latest
             ${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.IMAGE }}:${{ env.TAG }}
           outputs: type=image,oci-mediatypes=true
 
       - name: Build, tag and push sql-testing-seed image
         id: push_seed_step
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v.7.1.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         env:
           IMAGE: ghcr.io/${{ github.repository }}/sql-testing-seed
-          TAG: ${{ needs.release.outputs.tag }}
         with:
           context: .
           file: sql-testing-seed.Dockerfile
           push: true
           tags: |
-            ${{ env.IMAGE }}:latest
             ${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.IMAGE }}:${{ env.TAG }}
           outputs: type=image,oci-mediatypes=true
 
       - name: Install cosign
@@ -155,6 +149,18 @@ jobs:
           IMAGE: ghcr.io/${{ github.repository }}
           TAG: ${{ needs.release.outputs.tag }}
           DIGEST: ${{ steps.push_step.outputs.digest }}
+        run: |
+          docker buildx imagetools create \
+            --tag "${IMAGE}:latest" \
+            --tag "${IMAGE}:${TAG}" \
+            --prefer-index=false \
+            "${IMAGE}@${DIGEST}"
+
+      - name: Apply sql-testing-seed release tags
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}/sql-testing-seed
+          TAG: ${{ needs.release.outputs.tag }}
+          DIGEST: ${{ steps.push_seed_step.outputs.digest }}
         run: |
           docker buildx imagetools create \
             --tag "${IMAGE}:latest" \
