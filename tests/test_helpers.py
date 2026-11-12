@@ -9,6 +9,11 @@ def test_find_test_data_file_returns_single_match() -> None:
     assert found_file.name == "test_data.json"
 
 
+def test_find_test_data_file_matches_exact_file_name() -> None:
+    found_file = find_test_data_file("extractor/too_many_files.csv")
+    assert found_file.name == "too_many_files.csv"
+
+
 def test_find_test_data_file_raises_when_not_found() -> None:
     with pytest.raises(HTTPException) as error:
         find_test_data_file("extractor/not_existing")

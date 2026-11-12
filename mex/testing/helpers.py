@@ -42,6 +42,9 @@ def find_test_data_file(test_data_path: str, query: str = "") -> Path:
                 escape(f"{path_without_ext.name}@{query}.") + "*"
             )
         )
+    # an exact file name match (e.g. `default.json`) is served as-is, like drop does
+    if not found_files and path_without_ext.is_file():
+        return path_without_ext
     if not found_files:
         found_files = list(
             path_without_ext.parent.glob(escape(f"{path_without_ext.name}.") + "*")
