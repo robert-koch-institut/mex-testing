@@ -11,6 +11,7 @@ from mex.common.connector import CONNECTOR_STORE
 from mex.common.logging import logger
 from mex.testing.helpers import find_test_data_file, is_test_data_directory
 from mex.testing.logging import UVICORN_LOGGING_CONFIG
+from mex.testing.middleware import add_security_headers
 from mex.testing.settings import TestingSettings
 from mex.testing.system.main import router as system_router
 
@@ -54,7 +55,9 @@ app = FastAPI(
     strict_content_type=False,
     lifespan=lifespan,
     version="v0",
+    redoc_url=None,
 )
+add_security_headers(app)
 
 router = APIRouter(prefix="/v0")
 

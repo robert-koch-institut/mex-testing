@@ -17,11 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- disable unused redoc api documentation, swagger ui at `/docs` stays
+
 ### Fixed
 
 - serve files with or without extension
 
 ### Security
+
+- set security headers (CSP, HSTS, nosniff, referrer policy, frame options,
+  cache control) on all responses
 
 ## [1.0.0] - 2026-10-16
 
