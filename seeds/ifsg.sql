@@ -119,9 +119,9 @@ INSERT INTO Meta.Disease (
 )
 VALUES
     ('A1', 101, 1, 0, 1, 1, 0, 0, 0,
-     '01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16', 'virus', 'Epidemic', 'virus'),
+     '01,02,03', 'virus', 'Epidemic', 'virus'),
     ('A1', 101, 1, 0, 1, 1, 0, 0, 0,
-     '01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16', 'virus', 'Epidemic', 'virus');
+     '01,02,03', 'virus', 'Epidemic', 'virus');
 GO
 
 INSERT INTO Meta.Field (
