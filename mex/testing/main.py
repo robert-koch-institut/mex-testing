@@ -14,6 +14,7 @@ from mex.testing.logging import UVICORN_LOGGING_CONFIG
 from mex.testing.middleware import add_security_headers
 from mex.testing.settings import TestingSettings
 from mex.testing.system.main import router as system_router
+from mex.testing.wikidata.main import router as wikidata_router
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator, Callable
@@ -66,6 +67,7 @@ mimetypes.add_type("text/csv", ".csv")
 
 # include explicit routes before the catch-all below so they take precedence
 router.include_router(system_router)
+router.include_router(wikidata_router)
 
 
 @router.api_route("/{test_data_path:path}", methods=["GET", "POST"])

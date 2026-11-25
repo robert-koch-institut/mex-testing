@@ -1,0 +1,110 @@
+{
+    "aliases": {
+        "de": [
+            {
+                "language": "de",
+                "value": "alias_de_1"
+            },
+            {
+                "language": "de",
+                "value": "alias_de_2"
+            },
+            {
+                "language": "de",
+                "value": "alias_de_3"
+            }
+        ],
+        "en": [
+            {
+                "language": "en",
+                "value": "alias_en_1"
+            },
+            {
+                "language": "en",
+                "value": "alias_en_2"
+            },
+            {
+                "language": "en",
+                "value": "alias_en_3"
+            },
+            {
+                "language": "en",
+                "value": "alias_en_4"
+            }
+        ]
+    },
+    "claims": {
+        "P17": [
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": {
+                            "id": "Q183"
+                        }
+                    }
+                }
+            }
+        ],
+        "P1813": [
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": {
+                            "language": "en",
+                            "text": "RKI"
+                        }
+                    }
+                }
+            },
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": {
+                            "language": "de",
+                            "text": "RKI"
+                        }
+                    }
+                }
+            },
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": {
+                            "language": "fr",
+                            "text": "IRK"
+                        }
+                    }
+                }
+            }
+        ],
+        "P213": [
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": "0000 0001 0940 3744"
+                    }
+                }
+            }
+        ],
+        "P6782": [
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": "01k5qnb77"
+                    }
+                }
+            }
+        ]
+    },
+    "id": "Q679041",
+    "labels": {
+        "de": {
+            "language": "de",
+            "value": "Robert Koch-Institut"
+        },
+        "en": {
+            "language": "en",
+            "value": "Robert Koch Institute"
+        }
+    }
+}

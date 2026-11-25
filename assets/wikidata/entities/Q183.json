@@ -1,0 +1,24 @@
+{
+    "claims": {
+        "P1566": [
+            {
+                "mainsnak": {
+                    "datavalue": {
+                        "value": "2921044"
+                    }
+                }
+            }
+        ]
+    },
+    "id": "Q183",
+    "labels": {
+        "de": {
+            "language": "de",
+            "value": "Deutschland"
+        },
+        "en": {
+            "language": "en",
+            "value": "Germany"
+        }
+    }
+}
