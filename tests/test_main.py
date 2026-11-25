@@ -134,12 +134,6 @@ def test_path_traversal_is_blocked(client: TestClient) -> None:
         assert b"[project]" not in response.content
 
 
-def test_post_datscha_web_login(client: TestClient) -> None:
-    response = client.post("/v0/datscha_web/login.php", follow_redirects=False)
-    assert response.status_code == 307
-    assert response.headers["location"] == "verzeichnis.php"
-
-
 def test_underscore_paths_are_not_served(client: TestClient) -> None:
     assert client.get("/v0/_secret").status_code == 404
     assert client.head("/v0/_secret").status_code == 404

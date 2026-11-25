@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 import uvicorn
 from fastapi import APIRouter, FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, RedirectResponse, Response
+from fastapi.responses import FileResponse, Response
 
 from mex.common.cli import entrypoint
 from mex.common.connector import CONNECTOR_STORE
@@ -66,12 +66,6 @@ mimetypes.add_type("text/csv", ".csv")
 
 # include explicit routes before the catch-all below so they take precedence
 router.include_router(system_router)
-
-
-@router.post("/datscha_web/login.php")
-def post_datscha_web_login() -> RedirectResponse:
-    """Login logic for datscha web."""
-    return RedirectResponse("verzeichnis.php")
 
 
 @router.api_route("/{test_data_path:path}", methods=["GET", "POST"])
